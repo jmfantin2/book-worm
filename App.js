@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
 export default function App() {
+  const [totalCount, setTotalCount] = useState(0);
+  const [readingCount, setReadingCount] = useState(0);
+  const [readCount, setReadCount] = useState(0);
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaView />
@@ -32,19 +35,19 @@ export default function App() {
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <Text style={{ fontSize: 18 }}>Total</Text>
-          <Text>0</Text>
+          <Text>{totalCount}</Text>
         </View>
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <Text style={{ fontSize: 18 }}>Reading</Text>
-          <Text>0</Text>
+          <Text>{readingCount}</Text>
         </View>
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <Text style={{ fontSize: 18 }}>Read</Text>
-          <Text>0</Text>
+          <Text>{readCount}</Text>
         </View>
       </View>
       <SafeAreaView />
