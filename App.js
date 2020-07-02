@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
+import BookCount from "./components/BookCount";
+
 export default function App() {
   const [totalCount, setTotalCount] = useState(0);
   const [readingCount, setReadingCount] = useState(0);
@@ -31,24 +33,9 @@ export default function App() {
           flexDirection: "row",
         }}
       >
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text style={{ fontSize: 18 }}>Total</Text>
-          <Text>{totalCount}</Text>
-        </View>
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text style={{ fontSize: 18 }}>Reading</Text>
-          <Text>{readingCount}</Text>
-        </View>
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text style={{ fontSize: 18 }}>Read</Text>
-          <Text>{readCount}</Text>
-        </View>
+        <BookCount title="Total" count={totalCount} />
+        <BookCount title="Reading" count={readingCount} />
+        <BookCount title="Read" count={readCount} />
       </View>
       <SafeAreaView />
     </View>
