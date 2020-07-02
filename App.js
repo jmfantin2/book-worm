@@ -13,10 +13,27 @@ import { Ionicons, Feather } from "@expo/vector-icons";
 import BookCount from "./components/BookCount";
 
 export default function App() {
+  const [addingNewBook, setAddingNewBook] = useState(false);
+  const [newBookName, setNewBookName] = useState("");
+  const [books, setBooks] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [readingCount, setReadingCount] = useState(0);
   const [readCount, setReadCount] = useState(0);
-  const [addingNewBook, setAddingNewBook] = useState(false);
+
+  function addBook() {
+    const alreadyInList = books.find(function (bk) {
+      return bk === newBookName;
+    });
+    if (!alreadyInList) {
+      setBooks([...books, newBookName]);
+      setTotalCount(totalCount + 1);
+      setReadingCount(readingCount + 1);
+    } else {
+      alert("Book already added");
+    }
+    console.log(books);
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaView />
@@ -37,16 +54,20 @@ export default function App() {
         {addingNewBook && (
           <View style={{ height: 50, flexDirection: "row" }}>
             <TextInput
+              value={newBookName}
               style={{ flex: 1, backgroundColor: "#ececec", paddingLeft: 5 }}
-              placeholder="Enter book name"
+              onChangeText={(text) => {
+                setNewBookName(text);
+              }}
+              placeholder={newBookName ? null : "Enter book name :)"}
               placeholderTextColor="#999"
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setNewBookName("")}>
               <View
                 style={{
                   width: 50,
                   height: 50,
-                  backgroundColor: "#f99",
+                  backgroundColor: "#dab",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -54,7 +75,7 @@ export default function App() {
                 <Feather name="delete" color="white" size={26} />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => addBook()}>
               <View
                 style={{
                   width: 50,
@@ -69,7 +90,6 @@ export default function App() {
             </TouchableOpacity>
           </View>
         )}
-
         <TouchableOpacity
           onPress={() => {
             setAddingNewBook(!addingNewBook);
@@ -78,7 +98,7 @@ export default function App() {
         >
           <Ionicons
             name={addingNewBook ? "ios-remove-circle" : "ios-add-circle"}
-            color="#99f"
+            color="#abd"
             size={60}
           />
         </TouchableOpacity>
