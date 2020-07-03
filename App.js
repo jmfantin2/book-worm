@@ -11,7 +11,8 @@ import {
 
 import { Ionicons, Feather } from "@expo/vector-icons";
 
-import BookCount from "./components/BookCount";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import ActionButton from "./components/ActionButton";
 import FloatingAdd from "./components/FloatingAdd";
 
@@ -79,19 +80,7 @@ export default function App() {
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaView />
-      <View
-        style={{
-          height: 100,
-          backgroundColor: "#fafafa",
-          borderBottomWidth: 0.5,
-          borderBottomColor: "#bbb",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <Text style={{ fontSize: 24 }}>Book Worm</Text>
-      </View>
+      <Header />
       <View style={{ flex: 1 }}>
         {isAddingNewBook && (
           <View style={{ height: 50, flexDirection: "row" }}>
@@ -118,7 +107,6 @@ export default function App() {
             </ActionButton>
           </View>
         )}
-
         <FlatList
           data={books}
           renderItem={({ item }, index) => renderBookEntry(item, index)}
@@ -131,7 +119,6 @@ export default function App() {
             </View>
           }
         />
-
         <FloatingAdd
           onPress={() => {
             setIsAddingNewBook(!isAddingNewBook);
@@ -139,19 +126,7 @@ export default function App() {
           toggle={isAddingNewBook}
         />
       </View>
-      <View
-        style={{
-          height: 70,
-          backgroundColor: "#fafafa",
-          borderTopWidth: 0.5,
-          borderTopColor: "#F99",
-          flexDirection: "row",
-        }}
-      >
-        <BookCount title="Total" count={totalCount} />
-        <BookCount title="Reading" count={readingCount} />
-        <BookCount title="Read" count={readCount} />
-      </View>
+      <Footer total={totalCount} reading={readingCount} read={readCount} />
       <SafeAreaView />
     </View>
   );
