@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,25 +13,38 @@ import { Ionicons, Feather } from "@expo/vector-icons";
 import BookCount from "./components/BookCount";
 
 export default function App() {
-  const [addingNewBook, setAddingNewBook] = useState(false);
-  const [newBookName, setNewBookName] = useState("");
+  const [isIsAddingNewBook, setIsAddingNewBook] = useState(false);
+  const [textInputEntry, setTextInputEntry] = useState("");
   const [books, setBooks] = useState([]);
+  const [bookData, setBookData] = useState({ author: "", publisher: "" });
+
   const [totalCount, setTotalCount] = useState(0);
   const [readingCount, setReadingCount] = useState(0);
   const [readCount, setReadCount] = useState(0);
 
+  useEffect(() => {
+    console.log("\nDATA UPDATE: [books]");
+    console.log("books: " + books);
+    console.log(
+      "bookData: {" + bookData.author + ", " + bookData.publisher + "}"
+    );
+    console.log("totalCount: " + totalCount);
+    console.log("readingCount: " + readingCount);
+    console.log("readCount: " + readCount);
+  }, [books]);
+
   function addBook() {
     const alreadyInList = books.find(function (bk) {
-      return bk === newBookName;
+      return bk === textInputEntry;
     });
     if (!alreadyInList) {
-      setBooks([...books, newBookName]);
+      setBooks([...books, textInputEntry]);
+      setBookData({ author: "JM Fantin", publisher: "Tocha" });
       setTotalCount(totalCount + 1);
       setReadingCount(readingCount + 1);
     } else {
       alert("Book already added");
     }
-    console.log(books);
   }
 
   return (
@@ -51,18 +64,18 @@ export default function App() {
         <Text style={{ fontSize: 24 }}>Book Worm</Text>
       </View>
       <View style={{ flex: 1 }}>
-        {addingNewBook && (
+        {isIsAddingNewBook && (
           <View style={{ height: 50, flexDirection: "row" }}>
             <TextInput
-              value={newBookName}
+              value={textInputEntry}
               style={{ flex: 1, backgroundColor: "#ececec", paddingLeft: 5 }}
               onChangeText={(text) => {
-                setNewBookName(text);
+                setTextInputEntry(text);
               }}
-              placeholder={newBookName ? null : "Enter book name :)"}
+              placeholder={textInputEntry ? null : "Enter book name :)"}
               placeholderTextColor="#999"
             />
-            <TouchableOpacity onPress={() => setNewBookName("")}>
+            <TouchableOpacity onPress={() => setTextInputEntry("")}>
               <View
                 style={{
                   width: 50,
@@ -92,12 +105,12 @@ export default function App() {
         )}
         <TouchableOpacity
           onPress={() => {
-            setAddingNewBook(!addingNewBook);
+            setIsAddingNewBook(!isIsAddingNewBook);
           }}
           style={{ position: "absolute", bottom: 20, right: 20 }}
         >
           <Ionicons
-            name={addingNewBook ? "ios-remove-circle" : "ios-add-circle"}
+            name={isIsAddingNewBook ? "ios-remove-circle" : "ios-add-circle"}
             color="#abd"
             size={60}
           />
