@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from "react-native";
 
 import { Ionicons, Feather } from "@expo/vector-icons";
@@ -13,7 +14,7 @@ import { Ionicons, Feather } from "@expo/vector-icons";
 import BookCount from "./components/BookCount";
 
 export default function App() {
-  const [isIsAddingNewBook, setIsAddingNewBook] = useState(false);
+  const [isAddingNewBook, setIsAddingNewBook] = useState(false);
   const [textInputEntry, setTextInputEntry] = useState("");
   const [books, setBooks] = useState([]);
   const [bookData, setBookData] = useState({ author: "", publisher: "" });
@@ -47,6 +48,31 @@ export default function App() {
     }
   }
 
+  function renderBookEntry(item, index) {
+    return (
+      <View style={{ height: 50, flexDirection: "row" }}>
+        <View style={{ flex: 1, justifyContent: "center", paddingLeft: 5 }}>
+          <Text>{item}</Text>
+        </View>
+        <TouchableOpacity onPress={() => addBook()}>
+          <View
+            style={{
+              width: 100,
+              height: 50,
+              backgroundColor: "#adb",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", color: "#fff" }}>
+              Mark as Read
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaView />
@@ -64,7 +90,7 @@ export default function App() {
         <Text style={{ fontSize: 24 }}>Book Worm</Text>
       </View>
       <View style={{ flex: 1 }}>
-        {isIsAddingNewBook && (
+        {isAddingNewBook && (
           <View style={{ height: 50, flexDirection: "row" }}>
             <TextInput
               value={textInputEntry}
@@ -103,14 +129,28 @@ export default function App() {
             </TouchableOpacity>
           </View>
         )}
+
+        <FlatList
+          data={books}
+          renderItem={({ item }, index) => renderBookEntry(item, index)}
+          keyExtractor={(item, index) => index.toString()}
+          ListEmptyComponent={
+            <View style={{ marginTop: 50, alignItems: "center" }}>
+              <Text style={{ fontWeight: "bold", color: "#999", fontSize: 20 }}>
+                Not reading any books
+              </Text>
+            </View>
+          }
+        />
+
         <TouchableOpacity
           onPress={() => {
-            setIsAddingNewBook(!isIsAddingNewBook);
+            setIsAddingNewBook(!isAddingNewBook);
           }}
           style={{ position: "absolute", bottom: 20, right: 20 }}
         >
           <Ionicons
-            name={isIsAddingNewBook ? "ios-remove-circle" : "ios-add-circle"}
+            name={isAddingNewBook ? "ios-remove-circle" : "ios-add-circle"}
             color="#abd"
             size={60}
           />
