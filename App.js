@@ -12,6 +12,8 @@ import {
 import { Ionicons, Feather } from "@expo/vector-icons";
 
 import BookCount from "./components/BookCount";
+import ActionButton from "./components/ActionButton";
+import FloatingAdd from "./components/FloatingAdd";
 
 export default function App() {
   const [isAddingNewBook, setIsAddingNewBook] = useState(false);
@@ -43,6 +45,7 @@ export default function App() {
       setBookData({ author: "JM Fantin", publisher: "Tocha" });
       setTotalCount(totalCount + 1);
       setReadingCount(readingCount + 1);
+      setIsAddingNewBook(false);
     } else {
       alert("Book already added");
     }
@@ -61,21 +64,14 @@ export default function App() {
         <View style={{ flex: 1, justifyContent: "center", paddingLeft: 5 }}>
           <Text>{item}</Text>
         </View>
-        <TouchableOpacity onPress={() => markAsRead(item, index)}>
-          <View
-            style={{
-              width: 100,
-              height: 50,
-              backgroundColor: "#adb",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontWeight: "bold", color: "#fff" }}>
-              Mark as Read
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <ActionButton
+          style={{ backgroundColor: "#abd", width: 100 }}
+          onPress={() => markAsRead(item, index)}
+        >
+          <Text style={{ fontWeight: "bold", color: "#fff" }}>
+            Mark as Read
+          </Text>
+        </ActionButton>
       </View>
     );
   }
@@ -108,32 +104,18 @@ export default function App() {
               placeholder={textInputEntry ? null : "Enter book name :)"}
               placeholderTextColor="#999"
             />
-            <TouchableOpacity onPress={() => setTextInputEntry("")}>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: "#dab",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Feather name="delete" color="white" size={26} />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => addBook()}>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: "#adb",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Ionicons name="ios-checkmark" color="white" size={40} />
-              </View>
-            </TouchableOpacity>
+            <ActionButton
+              style={{ backgroundColor: "#dab" }}
+              onPress={() => setTextInputEntry("")}
+            >
+              <Feather name="delete" color="white" size={26} />
+            </ActionButton>
+            <ActionButton
+              style={{ backgroundColor: "#adb" }}
+              onPress={() => addBook()}
+            >
+              <Ionicons name="ios-checkmark" color="white" size={40} />
+            </ActionButton>
           </View>
         )}
 
@@ -150,18 +132,12 @@ export default function App() {
           }
         />
 
-        <TouchableOpacity
+        <FloatingAdd
           onPress={() => {
             setIsAddingNewBook(!isAddingNewBook);
           }}
-          style={{ position: "absolute", bottom: 20, right: 20 }}
-        >
-          <Ionicons
-            name={isAddingNewBook ? "ios-remove-circle" : "ios-add-circle"}
-            color="#abd"
-            size={60}
-          />
-        </TouchableOpacity>
+          toggle={isAddingNewBook}
+        />
       </View>
       <View
         style={{
