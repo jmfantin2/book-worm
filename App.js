@@ -48,13 +48,20 @@ export default function App() {
     }
   }
 
+  function markAsRead(selectedBook, index) {
+    let newList = books.filter((book) => book !== selectedBook);
+    setBooks(newList);
+    setReadingCount(readingCount - 1);
+    setReadCount(readCount + 1);
+  }
+
   function renderBookEntry(item, index) {
     return (
       <View style={{ height: 50, flexDirection: "row" }}>
         <View style={{ flex: 1, justifyContent: "center", paddingLeft: 5 }}>
           <Text>{item}</Text>
         </View>
-        <TouchableOpacity onPress={() => addBook()}>
+        <TouchableOpacity onPress={() => markAsRead(item, index)}>
           <View
             style={{
               width: 100,
